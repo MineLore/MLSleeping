@@ -1,0 +1,6 @@
+name: MLSleeping
+version: '1.0-SNAPSHOT'
+main: org.minelore.mlsleeping.MLSleeping
+api-version: '1.21'
+authors: [ CaHeK2009 ]
+description: PAPI expansion for random quote after night skip in Better Sleeping
