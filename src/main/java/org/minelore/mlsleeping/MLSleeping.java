@@ -1,17 +1,26 @@
 package org.minelore.mlsleeping;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Objects;
 
 public final class MLSleeping extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        loadCommands();
 
+        QuoteTask quoteTask = new QuoteTask(this);
+        quoteTask.start();
+    }
+
+    private void loadCommands() {
+        Objects.requireNonNull(getCommand("sleep")).setExecutor(new MainCommand());
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        Bukkit.getScheduler().cancelTasks(this);
     }
 }
