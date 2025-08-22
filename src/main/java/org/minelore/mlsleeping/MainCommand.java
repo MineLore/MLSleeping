@@ -9,6 +9,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Locale;
 
 public class MainCommand implements CommandExecutor {
+    private final MLSleeping mlSleeping;
+
+    public MainCommand(MLSleeping mlSleeping) {
+        this.mlSleeping = mlSleeping;
+    }
+
     @Override
     public boolean onCommand(
             @NotNull CommandSender sender,
@@ -18,43 +24,24 @@ public class MainCommand implements CommandExecutor {
     ) {
         if (command.getName().equalsIgnoreCase("sleep")) {
             if (!sender.hasPermission("sleep")) {
-                sender.sendMessage(MiniMessage.miniMessage().deserialize("" +
-                        " <red>У вас недостаточно прав для использования этой команды!"
-                ));
+                mlSleeping.sendMessage("<red>У вас недостаточно прав для использования этой команды!");
                 return true;
             }
-//            if(args.length != 1) {
-//                sender.sendMessage(MiniMessage.miniMessage().deserialize("" +
-//                        " <yellow>Использование команды: /hotnether <enable | disable | status>"
-//                ));
-//                return true;
-//            }
-//            switch (args[0].toLowerCase(Locale.ROOT)) {
-//                case "enable":
-//                    hotNether.enablePlugin();
-//                    sender.sendMessage(MiniMessage.miniMessage().deserialize("" +
-//                            " <green>Плагин активирован!"
-//                    ));
-//                    return true;
-//                case "disable":
-//                    hotNether.disablePlugin();
-//                    sender.sendMessage(MiniMessage.miniMessage().deserialize("" +
-//                            " <red>Плагин деактивирован!"
-//                    ));
-//                    return true;
-//                case "status":
-//                    sender.sendMessage(MiniMessage.miniMessage().deserialize("" +
-//                            " Состояние плагина: " + (hotNether.isEnable() ? "<green>Активен" : "<red>Неактивен")
-//                    ));
-//                    return true;
-//                default:
-//                    sender.sendMessage(MiniMessage.miniMessage().deserialize("" +
-//                            " <yellow>Использование команды: /hotnether <enable | disable | status>"
-//                    ));
-//                    return true;
+            if(args.length != 1) {
+                mlSleeping.sendMessage("<yellow>Использование команды: /sleep <yes | no>");
+                return true;
+            }
+            switch (args[0].toLowerCase(Locale.ROOT)) {
+                case "yes":
+                    // робим
+                    return true;
+                case "no":
+                    // робим
+                    return true;
+                default:
+                    mlSleeping.sendMessage("<yellow>Использование команды: /sleep <yes | no>");
+                    return true;
+            }
         } else return false;
-
-        // костыль
-        return false;
     }
 }

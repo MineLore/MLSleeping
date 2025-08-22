@@ -4,3 +4,12 @@ main: org.minelore.mlsleeping.MLSleeping
 api-version: '1.21.4'
 authors: [ CaHeK2009 ]
 description: Plugin that makes voting for the night skip and shows random quote after skip
+commands:
+  sleep:
+    description: Voting for a night skip
+    usage: /<command> <yes | no>
+    permission: sleep
+permissions:
+  sleep:
+    description: allows to use plugin command
+    default: true
