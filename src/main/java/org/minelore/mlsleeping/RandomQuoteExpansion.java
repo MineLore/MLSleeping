@@ -28,9 +28,11 @@ public class RandomQuoteExpansion extends PlaceholderExpansion {
             if (quotes == null || quotes.isEmpty()) return "";
             int idx = ThreadLocalRandom.current().nextInt(quotes.size());
             return quotes.get(idx);
-        } else if (identifier.equalsIgnoreCase("prefix")) {
-            return "[<blue>MLSleep</blue>] ";
         }
+//        Префикс перед каждым сообщением
+//        else if (identifier.equalsIgnoreCase("prefix")) {
+//            return "[<blue>MLSleep</blue>] ";
+//        }
         return null; // не обрабатываем
     }
 }

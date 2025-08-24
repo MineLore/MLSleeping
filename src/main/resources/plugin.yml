@@ -5,11 +5,11 @@ api-version: '1.21.4'
 authors: [ CaHeK2009 ]
 description: Plugin that makes voting for the night skip and shows random quote after skip
 commands:
-  sleep:
+  skipnight:
     description: Voting for a night skip
     usage: /<command> <yes | no>
-    permission: sleep
+    permission: skipnight
 permissions:
-  sleep:
+  skipnight:
     description: allows to use plugin command
     default: true

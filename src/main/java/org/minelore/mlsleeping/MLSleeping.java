@@ -1,15 +1,25 @@
 package org.minelore.mlsleeping;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.minelore.mlsleeping.commands.SkipNightCommand;
+import org.minelore.mlsleeping.listeners.MainListener;
+import org.minelore.mlsleeping.managers.BossBarManager;
+import org.minelore.mlsleeping.managers.VoteManager;
+import org.minelore.mlsleeping.tasks.QuoteTask;
+import org.minelore.mlsleeping.utils.MessageUtil;
 
 import java.util.Objects;
 
 public final class MLSleeping extends JavaPlugin {
     private RandomQuoteExpansion expansion;
+    private final MessageUtil messageUtil;
+
+    private VoteManager voteManager;
+
+    public MLSleeping(MessageUtil messageUtil) {
+        this.messageUtil = messageUtil;
+    }
 
     @Override
     public void onEnable() {
@@ -17,8 +27,13 @@ public final class MLSleeping extends JavaPlugin {
 
         loadCommands();
 
-        QuoteTask quoteTask = new QuoteTask(this, this);
+        QuoteTask quoteTask = new QuoteTask(this, messageUtil);
         quoteTask.start();
+
+        BossBarManager bossBarManager = new BossBarManager(this);
+        voteManager = new VoteManager(messageUtil, this, bossBarManager);
+
+        getServer().getPluginManager().registerEvents(new MainListener(messageUtil, voteManager), this);
 
         expansion = new RandomQuoteExpansion(this);
         if (!expansion.register()) {
@@ -28,15 +43,8 @@ public final class MLSleeping extends JavaPlugin {
         }
     }
 
-    public void sendMessage(String message) {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(MiniMessage.miniMessage().deserialize(
-                    PlaceholderAPI.setPlaceholders(player, "%mlsleep_prefix%" + message)));
-        }
-    }
-
     private void loadCommands() {
-        Objects.requireNonNull(getCommand("sleep")).setExecutor(new MainCommand(this));
+        Objects.requireNonNull(getCommand("skipnight")).setExecutor(new SkipNightCommand(messageUtil, voteManager));
     }
 
     @Override
