@@ -13,6 +13,7 @@ import java.util.*;
 public class VoteManager {
     private final Map<UUID, Boolean> votedPlayers = new HashMap<>();
     public final Set<UUID> sleepingPlayers = new HashSet<>();
+
     private boolean isVotingActive = false;
     private final MessageUtil message;
     private final Plugin plugin;
@@ -28,12 +29,18 @@ public class VoteManager {
         return isVotingActive;
     }
 
+    public void setVotingActive(boolean votingActive) {
+        isVotingActive = votingActive;
+        sleepingPlayers.clear();
+    }
+
     public void addSleepingPlayer(UUID player) {
+        if (sleepingPlayers.contains(player)) return;
         sleepingPlayers.add(player);
         if (!isVotingActive) {
             start();
         }
-        votedPlayers.put(player, true);
+        vote(player, true);
     }
     public void removeSleepingPlayer(UUID player) {
         sleepingPlayers.remove(player);

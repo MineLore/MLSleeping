@@ -1,9 +1,10 @@
 name: MLSleeping
-version: '1.0-SNAPSHOT'
+version: '0.9.0'
 main: org.minelore.mlsleeping.MLSleeping
 api-version: '1.21.4'
 authors: [ CaHeK2009 ]
 description: Plugin that makes voting for the night skip and shows random quote after skip
+softdepend: [ GSit ]
 commands:
   skipnight:
     description: Voting for a night skip

@@ -20,7 +20,7 @@ public class RandomQuoteExpansion extends PlaceholderExpansion {
     @Override public boolean canRegister() { return true; }
     @Override public @NotNull String getAuthor() { return "CaHeK2009"; }
     @Override public @NotNull String getIdentifier() { return "mlsleep"; }
-    @Override public @NotNull String getVersion() { return "1.0-SNAPSHOT"; }
+    @Override public @NotNull String getVersion() { return "0.9.0"; }
 
     @Override
     public String onPlaceholderRequest(Player player, @NotNull String identifier) {

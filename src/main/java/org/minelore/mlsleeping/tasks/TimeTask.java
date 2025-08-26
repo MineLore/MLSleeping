@@ -1,30 +1,27 @@
 package org.minelore.mlsleeping.tasks;
 
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.minelore.mlsleeping.managers.VoteManager;
 import org.minelore.mlsleeping.utils.MessageUtil;
 
 import java.util.Objects;
 
-public class QuoteTask extends BukkitRunnable {
-    private final Plugin plugin;
+public class TimeTask extends BukkitRunnable {
     private final MessageUtil message;
+    private final VoteManager voteManager;
 
-    public QuoteTask(Plugin plugin, MessageUtil message) {
-        this.plugin = plugin;
+    public TimeTask(MessageUtil message, VoteManager voteManager) {
         this.message = message;
+        this.voteManager = voteManager;
     }
 
     @Override
     public void run() {
         long time = Objects.requireNonNull(Bukkit.getWorld("world")).getTime();
-        if (time == 23500) {
+        if (time == 0) {
             message.send("%mlsleep_quote%");
+            voteManager.setVotingActive(false);
         }
-    }
-
-    public void start() {
-        this.runTaskTimer(plugin, 0L, 1L);
     }
 }

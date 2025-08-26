@@ -7,6 +7,8 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import java.util.logging.Logger;
+
 public class BossBarManager {
     private final BossBar voteBar = Bukkit.createBossBar("Прогресс голосования за пропуск ночи: 1/1", BarColor.BLUE, BarStyle.SOLID);
     private final Plugin plugin;
@@ -23,7 +25,8 @@ public class BossBarManager {
     }
 
     public void update(int quantity) {
-        int required = plugin.getConfig().getInt("playerSleepingPercentage") / 100 * Bukkit.getOnlinePlayers().size();
+        double required = (double) plugin.getConfig().getInt("playerSleepingPercentage") / 100 * Bukkit.getOnlinePlayers().size();
+        required = Math.ceil(required);
         voteBar.setProgress((double) quantity / required);
         voteBar.setTitle("Прогресс голосования за пропуск ночи: " + quantity + "/" + required);
     }
