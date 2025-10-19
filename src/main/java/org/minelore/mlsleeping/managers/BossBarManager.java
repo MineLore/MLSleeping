@@ -7,8 +7,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import java.util.logging.Logger;
-
 public class BossBarManager {
     private final BossBar voteBar = Bukkit.createBossBar("Прогресс голосования за пропуск ночи: 1/1", BarColor.BLUE, BarStyle.SOLID);
     private final Plugin plugin;

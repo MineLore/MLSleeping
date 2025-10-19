@@ -27,7 +27,7 @@ public final class MLSleeping extends JavaPlugin {
         BossBarManager bossBarManager = new BossBarManager(this);
         voteManager = new VoteManager(messageUtil, this, bossBarManager);
 
-        getServer().getPluginManager().registerEvents(new MainListener(messageUtil, voteManager), this);
+        getServer().getPluginManager().registerEvents(new MainListener(voteManager), this);
 
         timeTask = new TimeTask(messageUtil, voteManager).runTaskTimer(this, 0L, 0L);
 

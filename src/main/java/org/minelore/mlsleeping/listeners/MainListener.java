@@ -8,14 +8,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.minelore.mlsleeping.managers.VoteManager;
-import org.minelore.mlsleeping.utils.MessageUtil;
 
 public class MainListener implements Listener {
-    private final MessageUtil message;
     private final VoteManager voteManager;
 
-    public MainListener(MessageUtil message, VoteManager voteManager) {
-        this.message = message;
+    public MainListener( VoteManager voteManager) {
         this.voteManager = voteManager;
     }
 
