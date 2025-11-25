@@ -3,6 +3,7 @@ package org.minelore.mlsleeping.managers;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -48,6 +49,7 @@ public class VoteManager {
         if (sleepingPlayers.isEmpty() && isVotingActive) {
             isVotingActive = false;
             message.send("Голосование остановлено, нет спящих игроков");
+            voteBar.remove();
         }
     }
 
@@ -62,11 +64,11 @@ public class VoteManager {
         message.send("Началось голосование за пропуск ночи!");
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (!sleepingPlayers.contains(player.getUniqueId())) {
-                message.sendToPlayer("Желаешь ли ты пропустить эту ночь? " +
-                        Component.text("<green>[Да] ").clickEvent(ClickEvent.runCommand("/skipnight yes"))
-                                .hoverEvent(HoverEvent.showText(Component.text("Проголосовать за пропуск ночи"))) +
-                        Component.text("<red>[Нет]").clickEvent(ClickEvent.runCommand("/skipnight no"))
-                                .hoverEvent(HoverEvent.showText(Component.text("Проголосовать против пропуска ночи"))),
+                message.sendToPlayer(Component.text("Желаешь ли ты пропустить эту ночь? ").append(
+                        Component.text("[Да] ").clickEvent(ClickEvent.runCommand("/skipnight yes")).color(NamedTextColor.GREEN)
+                                .hoverEvent(HoverEvent.showText(Component.text("Проголосовать за пропуск ночи")))).append(
+                        Component.text("[Нет]").clickEvent(ClickEvent.runCommand("/skipnight no")).color(NamedTextColor.RED)
+                                .hoverEvent(HoverEvent.showText(Component.text("Проголосовать против пропуска ночи")))),
                         player.getUniqueId());
             }
         }
@@ -75,7 +77,7 @@ public class VoteManager {
     public void vote(UUID player, boolean res) {
         votedPlayers.put(player, res);
         message.sendToPlayer("Твой голос учтён. Спасибо за участие в опросе!", player);
-        double percentage = (double) plugin.getConfig().getInt("PlayerSleepingPercentage") / 100;
+        double percentage = (double) plugin.getConfig().getInt("playerSleepingPercentage") / 100;
         int votedYes = 0;
         int votedNo = 0;
         for (boolean votedPlayer : votedPlayers.values()) {
@@ -87,20 +89,20 @@ public class VoteManager {
         }
         voteBar.update(votedYes);
         if ((double) votedYes / Bukkit.getOnlinePlayers().size() >= percentage) {
-            finish(true);
+            finish(true, votedYes, percentage);
         } else if ((double) votedNo / Bukkit.getOnlinePlayers().size() >= percentage) {
-            finish(false);
+            finish(false, votedNo, percentage);
         }
     }
 
-    public void finish(boolean skip) {
+    public void finish(boolean skip, int vote, double percentage) {
         isVotingActive = false;
         voteBar.remove();
         if (skip) {
-            message.send("Голосование завершено. Скоро наступит утро!");
+            message.send("Голосование завершено. Скоро наступит утро!" + vote + ", " + (double) vote / Bukkit.getOnlinePlayers().size() + percentage);
             Objects.requireNonNull(Bukkit.getWorld("world")).setTime(0);
         } else {
-            message.send("Голосование завершено в пользу того, что ночь пройдёт как обычно и не будет пропущена.");
+            message.send("Голосование завершено в пользу того, что ночь пройдёт как обычно и не будет пропущена." + vote + ", " + ((double) vote / Bukkit.getOnlinePlayers().size()));
         }
     }
 }

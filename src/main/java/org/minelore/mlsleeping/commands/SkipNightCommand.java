@@ -58,6 +58,9 @@ public class SkipNightCommand implements CommandExecutor {
                 case "no":
                     voteManager.vote(uuid, false);
                     return true;
+                case "start":
+                    voteManager.start();
+                    return true;
                 default:
                     message.sendToPlayer("<yellow>Использование команды: /skipnight <yes | no>", uuid);
                     return true;
