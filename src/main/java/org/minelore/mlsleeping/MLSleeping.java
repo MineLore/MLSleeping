@@ -10,13 +10,18 @@ import org.minelore.mlsleeping.managers.VoteManager;
 import org.minelore.mlsleeping.tasks.TimeTask;
 import org.minelore.mlsleeping.utils.MessageUtil;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
 public final class MLSleeping extends JavaPlugin {
     private RandomQuoteExpansion expansion;
     private VoteManager voteManager;
     private MessageUtil messageUtil;
     private BukkitTask timeTask;
+
+    Set<UUID> notActivePlayers = new HashSet<>();
 
     @Override
     public void onEnable() {
@@ -25,11 +30,11 @@ public final class MLSleeping extends JavaPlugin {
         messageUtil = new MessageUtil();
 
         BossBarManager bossBarManager = new BossBarManager(this);
-        voteManager = new VoteManager(messageUtil, this, bossBarManager);
+        voteManager = new VoteManager(notActivePlayers, messageUtil, this, bossBarManager);
 
         getServer().getPluginManager().registerEvents(new MainListener(voteManager), this);
 
-        timeTask = new TimeTask(messageUtil, voteManager).runTaskTimer(this, 0L, 0L);
+        timeTask = new TimeTask(messageUtil, voteManager).runTaskTimer(this, 0L, 1L);
 
         loadCommands();
 
@@ -42,7 +47,8 @@ public final class MLSleeping extends JavaPlugin {
     }
 
     private void loadCommands() {
-        Objects.requireNonNull(getCommand("skipnight")).setExecutor(new SkipNightCommand(messageUtil, voteManager));
+        Objects.requireNonNull(getCommand("skipnight")).setExecutor(
+                new SkipNightCommand(messageUtil, voteManager, notActivePlayers));
     }
 
     @Override

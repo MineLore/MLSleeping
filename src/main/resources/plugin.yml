@@ -1,5 +1,5 @@
 name: MLSleeping
-version: '1.0'
+version: '1.3'
 main: org.minelore.mlsleeping.MLSleeping
 api-version: '1.21.10'
 authors: [ CaHeK2009 ]

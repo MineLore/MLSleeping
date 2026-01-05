@@ -23,8 +23,8 @@ public class BossBarManager {
         }
     }
 
-    public void update(int quantity) {
-        double required = (double) plugin.getConfig().getInt("playerSleepingPercentage") / 100 * Bukkit.getOnlinePlayers().size();
+    public void update(int quantity, int activePlayers) {
+        double required = (double) plugin.getConfig().getInt("playerSleepingPercentage") / 100 * activePlayers;
         required = Math.ceil(required);
         voteBar.progress((float) (quantity / required));
         voteBar.name(Component.text("Прогресс голосования за пропуск ночи: " + quantity + "/" + (int)required)

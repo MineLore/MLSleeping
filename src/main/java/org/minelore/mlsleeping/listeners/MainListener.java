@@ -31,7 +31,7 @@ public class MainListener implements Listener {
 
     @EventHandler
     public void onPlayerGetPose(PlayerPoseEvent event) {
-        if (event.getPose().getPose() == Pose.SLEEPING &&
+        if (event.getPlayer().getPose() == Pose.SLEEPING &&
             Objects.requireNonNull(Bukkit.getWorld("world")).getTime() >= 12542 &&
             Objects.requireNonNull(Bukkit.getWorld("world")).getTime() <= 23459
         ) {
@@ -41,7 +41,7 @@ public class MainListener implements Listener {
 
     @EventHandler
     public void onPlayerLeavesPose(PlayerStopPoseEvent event) {
-        if (event.getPose().getPose() == Pose.SLEEPING) {
+        if (event.getPlayer().getPose() == Pose.SLEEPING) {
             voteManager.removeSleepingPlayer(event.getPlayer().getUniqueId());
         }
     }
